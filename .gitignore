@@ -4,4 +4,7 @@
 # Python
 __pycache__/
 .venv/
-
+*.pyc
+task.db
+tasks.db
+.env
