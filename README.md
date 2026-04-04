@@ -1,25 +1,68 @@
 # Task API
 
-A simple REST API built with FastAPI that demonstrates basic backend concepts
-including routing, request validation, error handling, and interactive
-documentation.
+A FastAPI backend project for managing tasks with JWT authentication, role-based access control (RBAC), task ownership enforcement, SQLite + SQLAlchemy persistence, Alembic migrations, Docker support, and automated API tests.
+
+This project was built as part of my backend/cloud portfolio to strengthen practical skills in:
+
+- FastAPI
+- REST API design
+- Authentication & authorization
+- Database modeling
+- Testing
+- Containerization
+
+---
 
 ## Features
-- Health check endpoint
-- Create, list, and delete tasks
-- Input validation using Pydantic
-- Interactive API docs with Swagger UI
+
+- User registration and login
+- JWT-based authentication
+- Password hashing with bcrypt / passlib
+- Role-based access control (`admin` and `user`)
+- Task creation with ownership enforcement
+- Users can only access and modify **their own tasks**
+- Admin can view and manage **all tasks**
+- Protected endpoints using FastAPI dependencies
+- SQLite persistence with SQLAlchemy ORM
+- Alembic database migrations
+- Docker + Docker Compose support
+- Automated API tests with `pytest`
+
+---
 
 ## Tech Stack
-- Python 3.12
-- FastAPI
-- Uvicorn
 
-## How to Run
+- **Backend:** FastAPI
+- **Language:** Python 3.12
+- **Database:** SQLite
+- **ORM:** SQLAlchemy
+- **Migrations:** Alembic
+- **Authentication:** JWT (`python-jose`)
+- **Password Hashing:** Passlib + bcrypt
+- **Testing:** Pytest
+- **Containerization:** Docker, Docker Compose
+
+---
+
+## Project Structure
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install fastapi "uvicorn[standard]"
-uvicorn main:app --reload
-Open:
-http://127.0.0.1:8000/docs
+task-api/
+├── main.py
+├── auth.py
+├── security.py
+├── config.py
+├── database.py
+├── models.py
+├── init_db.py
+├── seed_users.py
+├── requirements.txt
+├── .env
+├── Dockerfile
+├── docker-compose.yml
+├── alembic.ini
+├── alembic/
+│   └── versions/
+├── tests/
+│   └── test_api.py
+└── README.md
