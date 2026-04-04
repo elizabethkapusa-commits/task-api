@@ -7,15 +7,28 @@ from sqlalchemy.orm import Session
 from auth import TokenUser, create_access_token, get_current_user, require_role
 from database import get_db
 from models import User, Task as TaskModel
-from security import verify_password
+from security import verify_password, hash_password
 
 
 app = FastAPI()
 
 
-# -----------------------------
+
 # Schemas
-# -----------------------------
+
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=6)
+
+
+class UserResponse(BaseModel):
+    id: int
+    email: EmailStr
+    role: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
@@ -44,9 +57,9 @@ class TaskResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-# -----------------------------
+
 # Helpers
-# -----------------------------
+
 def get_task_or_404(db: Session, task_id: int) -> TaskModel:
     task = db.query(TaskModel).filter(TaskModel.id == task_id).first()
     if not task:
@@ -68,12 +81,37 @@ def enforce_task_access(task: TaskModel, current_user: TokenUser) -> None:
         )
 
 
-# -----------------------------
+
 # Routes
-# -----------------------------
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.post("/auth/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register(
+    payload: RegisterRequest,
+    db: Annotated[Session, Depends(get_db)],
+):
+    existing_user = db.query(User).filter(User.email == payload.email).first()
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered",
+        )
+
+    new_user = User(
+        email=payload.email,
+        hashed_password=hash_password(payload.password),
+        role="user",
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
 
 
 @app.post("/auth/login", response_model=TokenResponse)

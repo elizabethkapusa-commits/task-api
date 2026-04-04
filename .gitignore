@@ -1,10 +1,18 @@
-# Database files
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables
+.env
+
+# Local database
 *.db
 
-# Python
-__pycache__/
-.venv/
-*.pyc
-task.db
-tasks.db
-.env
+# OS / editor
+.vscode/
+.idea/
+.DS_Store
