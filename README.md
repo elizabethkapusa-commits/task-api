@@ -46,7 +46,7 @@ This project was built as part of my backend/cloud portfolio to strengthen pract
 
 ## Project Structure
 
-```bash
+```text
 task-api/
 ├── main.py
 ├── auth.py
@@ -65,6 +65,9 @@ task-api/
 ├── tests/
 │   └── test_api.py
 └── README.md
+```
+
+---
 
 ## API Endpoints
 
@@ -77,13 +80,15 @@ task-api/
 
 ### Tasks
 - `POST /tasks` — Create a new task
-- `GET /tasks` — View tasks
+- `GET /tasks` — View tasks  
   - Regular users see **only their own tasks**
   - Admin users can see **all tasks**
-- `PATCH /tasks/{task_id}` — Update a task
+- `PATCH /tasks/{task_id}` — Update a task  
   - Users can only update **their own** tasks
-- `DELETE /tasks/{task_id}` — Delete a task
+- `DELETE /tasks/{task_id}` — Delete a task  
   - Admin users can delete any task
+
+---
 
 ## Security & Authorization Logic
 
@@ -96,16 +101,72 @@ This project demonstrates practical backend security patterns:
 - Task ownership is enforced so users cannot modify another user's data
 
 ### Access Rules
-- **User**
-  - Can create tasks
-  - Can view only their own tasks
-  - Can update only their own tasks
-- **Admin**
-  - Can view all tasks
-  - Can manage all tasks
-  - Can delete any task
 
-## Testing
+#### User
+- Can create tasks
+- Can view only their own tasks
+- Can update only their own tasks
+
+#### Admin
+- Can view all tasks
+- Can manage all tasks
+- Can delete any task
+
+---
+
+## Setup Instructions
+
+### 1) Clone the repository
+
+```bash
+git clone https://github.com/elizabethkapusa-commits/task-api.git
+cd task-api
+```
+
+### 2) Create and activate a virtual environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 3) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4) Create your `.env` file
+
+Create a `.env` file in the project root and add:
+
+```env
+SECRET_KEY=your-secret-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+DATABASE_URL=sqlite:///./tasks.db
+```
+
+### 5) Initialize the database
+
+```bash
+python init_db.py
+```
+
+### 6) Run the API
+
+```bash
+uvicorn main:app --reload
+```
+
+Then open:
+
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
+
+---
+
+## Running Tests
 
 This project includes automated API tests using **pytest** and **FastAPI TestClient**.
 
@@ -128,6 +189,21 @@ Run tests with:
 ```bash
 pytest -v
 ```
+
+---
+
+## Docker Support
+
+### Build and run with Docker Compose
+
+```bash
+docker-compose up --build
+```
+
+This will start the FastAPI app inside a containerized environment.
+
+---
+
 ## Why I Built This
 
 I built this project as part of my backend/cloud engineering portfolio to strengthen hands-on skills in:
@@ -139,7 +215,9 @@ I built this project as part of my backend/cloud engineering portfolio to streng
 - automated testing
 - containerized deployment
 
-This project was also designed to reflect practical backend engineering concepts commonly used in real-world production systems.
+This project was designed to reflect practical backend engineering concepts commonly used in real-world systems.
+
+---
 
 ## Future Improvements
 
@@ -147,16 +225,15 @@ Planned enhancements include:
 
 - Add task due dates and status tracking
 - Add refresh tokens and token revocation
-- Add user roles stored in a dedicated users table with stricter validation
-- Add PostgreSQL support for production deployment
-- Add CI/CD pipeline with GitHub Actions
-- Add API documentation screenshots and usage examples## Future Improvements
-
-Planned enhancements include:
-
-- Add task due dates and status tracking
-- Add refresh tokens and token revocation
-- Add user roles stored in a dedicated users table with stricter validation
+- Add stricter user validation and profile management
 - Add PostgreSQL support for production deployment
 - Add CI/CD pipeline with GitHub Actions
 - Add API documentation screenshots and usage examples
+
+---
+
+## Author
+
+**Elizabeth Kapusa**  
+MS Computer Engineering — UMass Dartmouth  
+Backend / Cloud / Cybersecurity Portfolio Project
