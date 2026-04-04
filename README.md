@@ -57,7 +57,6 @@ task-api/
 ├── init_db.py
 ├── seed_users.py
 ├── requirements.txt
-├── .env
 ├── Dockerfile
 ├── docker-compose.yml
 ├── alembic.ini
@@ -66,3 +65,98 @@ task-api/
 ├── tests/
 │   └── test_api.py
 └── README.md
+
+## API Endpoints
+
+### Auth
+- `POST /auth/register` — Register a new user
+- `POST /auth/login` — Login and receive JWT token
+
+### User
+- `GET /me` — Get current authenticated user info
+
+### Tasks
+- `POST /tasks` — Create a new task
+- `GET /tasks` — View tasks
+  - Regular users see **only their own tasks**
+  - Admin users can see **all tasks**
+- `PATCH /tasks/{task_id}` — Update a task
+  - Users can only update **their own** tasks
+- `DELETE /tasks/{task_id}` — Delete a task
+  - Admin users can delete any task
+
+## Security & Authorization Logic
+
+This project demonstrates practical backend security patterns:
+
+- Passwords are hashed before storage using **Passlib + bcrypt**
+- Authentication is handled with **JWT access tokens**
+- Protected routes use **FastAPI dependency injection**
+- Role-based access control (RBAC) is enforced for `admin` and `user`
+- Task ownership is enforced so users cannot modify another user's data
+
+### Access Rules
+- **User**
+  - Can create tasks
+  - Can view only their own tasks
+  - Can update only their own tasks
+- **Admin**
+  - Can view all tasks
+  - Can manage all tasks
+  - Can delete any task
+
+## Testing
+
+This project includes automated API tests using **pytest** and **FastAPI TestClient**.
+
+### Covered test scenarios
+- User registration success
+- Duplicate email registration rejection
+- Login success
+- Login failure with wrong password
+- Auth-protected route enforcement
+- Valid token authentication
+- Task creation with ownership assignment
+- User sees only their own tasks
+- Admin sees all tasks
+- User cannot access another user's task
+- User can update their own task
+- Admin can delete any task
+
+Run tests with:
+
+```bash
+pytest -v
+```
+## Why I Built This
+
+I built this project as part of my backend/cloud engineering portfolio to strengthen hands-on skills in:
+
+- secure API development
+- authentication and authorization
+- backend architecture
+- database persistence
+- automated testing
+- containerized deployment
+
+This project was also designed to reflect practical backend engineering concepts commonly used in real-world production systems.
+
+## Future Improvements
+
+Planned enhancements include:
+
+- Add task due dates and status tracking
+- Add refresh tokens and token revocation
+- Add user roles stored in a dedicated users table with stricter validation
+- Add PostgreSQL support for production deployment
+- Add CI/CD pipeline with GitHub Actions
+- Add API documentation screenshots and usage examples## Future Improvements
+
+Planned enhancements include:
+
+- Add task due dates and status tracking
+- Add refresh tokens and token revocation
+- Add user roles stored in a dedicated users table with stricter validation
+- Add PostgreSQL support for production deployment
+- Add CI/CD pipeline with GitHub Actions
+- Add API documentation screenshots and usage examples
