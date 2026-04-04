@@ -1,15 +1,23 @@
 # Task API
 
-A FastAPI backend project for managing tasks with JWT authentication, role-based access control (RBAC), task ownership enforcement, SQLite + SQLAlchemy persistence, Alembic migrations, Docker support, and automated API tests.
+A secure FastAPI backend for task management with JWT authentication, role-based access control (RBAC), task ownership enforcement, SQLite + SQLAlchemy persistence, Alembic migrations, Docker support, and automated API tests.
 
-This project was built as part of my backend/cloud portfolio to strengthen practical skills in:
+This project was built as part of my backend/cloud portfolio to demonstrate practical backend engineering skills used in real-world systems.
 
-- FastAPI
-- REST API design
-- Authentication & authorization
-- Database modeling
-- Testing
-- Containerization
+---
+
+## What This Project Demonstrates
+
+This project showcases practical backend concepts including:
+
+- Secure user authentication with JWT
+- Role-based authorization (`admin` vs `user`)
+- Ownership-based access control
+- Protected API endpoints
+- Persistent database storage with SQLAlchemy
+- Database versioning with Alembic
+- Automated API testing with Pytest
+- Containerized deployment with Docker
 
 ---
 
@@ -111,6 +119,54 @@ This project demonstrates practical backend security patterns:
 - Can view all tasks
 - Can manage all tasks
 - Can delete any task
+
+---
+
+## Example Workflow
+
+### 1) Register a user
+
+**Request**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword",
+  "role": "user"
+}
+```
+
+### 2) Login to receive JWT token
+
+**Request**
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+**Response**
+```json
+{
+  "access_token": "your.jwt.token.here",
+  "token_type": "bearer"
+}
+```
+
+### 3) Create a task
+
+**Request**
+```json
+{
+  "title": "Finish backend portfolio project",
+  "description": "Complete README and test all endpoints"
+}
+```
+
+### 4) View tasks
+
+- A **regular user** sees only their own tasks
+- An **admin** can see all tasks
 
 ---
 
